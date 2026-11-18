@@ -106,6 +106,73 @@
     }, { passive: true });
   }
 
+  /* --- Mobile hamburger menu --- */
+  function initMobileNav() {
+    const nav = document.getElementById('site-nav');
+    if (!nav) return;
+
+    // Inject hamburger button into nav
+    const burger = document.createElement('button');
+    burger.className = 'site-nav__burger';
+    burger.setAttribute('aria-label', 'Toggle menu');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.innerHTML = '<span></span><span></span><span></span>';
+    nav.appendChild(burger);
+
+    // Build full-screen mobile menu overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'mobile-menu';
+    overlay.setAttribute('aria-hidden', 'true');
+
+    // Clone links from the desktop nav
+    const desktopLinks = nav.querySelector('.site-nav__links');
+    if (desktopLinks) {
+      desktopLinks.querySelectorAll('a').forEach(a => {
+        const link = a.cloneNode(true);
+        overlay.appendChild(link);
+      });
+    }
+
+    // Footer label
+    const footer = document.createElement('p');
+    footer.className = 'mobile-menu__footer';
+    footer.textContent = 'VRASA · by Sri Vrushank';
+    overlay.appendChild(footer);
+
+    document.body.appendChild(overlay);
+
+    // Toggle open/close
+    function openMenu() {
+      burger.classList.add('is-open');
+      overlay.classList.add('is-open');
+      burger.setAttribute('aria-expanded', 'true');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      burger.classList.remove('is-open');
+      overlay.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    burger.addEventListener('click', () => {
+      burger.classList.contains('is-open') ? closeMenu() : openMenu();
+    });
+
+    // Close on link click (page transitions handle the rest)
+    overlay.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', closeMenu);
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeMenu();
+    });
+  }
+
   /* --- Init all --- */
   document.addEventListener('DOMContentLoaded', () => {
     initNav();
@@ -114,5 +181,6 @@
     initLazyImages();
     initGridHover();
     initScrollHint();
+    initMobileNav();
   });
 })();

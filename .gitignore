@@ -6,3 +6,9 @@ Thumbs.db
 *-unified.html
 *.bak
 *.tmp
+
+# Working files + full-res originals (site uses shoots/circuit/ web copies)
+_work/
+._*
+shoots/Munich Fashion Week 2026/
+shoots/berlin fashionweek 2026/

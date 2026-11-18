@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Circuit — Fashion Weeks · VRASA by Sri Vrushank</title>
+  <meta name="description" content="The Circuit — Munich, Milan, Paris and Berlin Fashion Week 2026, photographed by Sri Vrushank for VRASA." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&family=Space+Mono:ital,wght@0,400;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/vrasa.css">
+  <style>
+  body { background:#0A0A0A; color:rgba(255,255,255,.75); }
+  .site-nav { background:rgba(10,10,10,.88); }
+
+  /* ── Shared labels ── */
+  .mono { font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.34); }
+
+  /* ── Hero ── */
+  .cx-hero { padding:150px 40px 48px; border-bottom:1px solid rgba(255,255,255,.08); display:grid; grid-template-columns:1fr auto; gap:32px; align-items:end; }
+  .cx-hero__title { font-family:var(--sc); font-weight:300; color:#fff; font-size:clamp(56px,10vw,150px); line-height:.86; letter-spacing:.04em; margin:14px 0 18px; }
+  .cx-hero__sub { font-family:var(--serif); font-style:italic; font-size:clamp(20px,2vw,28px); color:rgba(255,255,255,.62); max-width:34ch; line-height:1.3; }
+  .cx-hero__meta { text-align:right; display:flex; flex-direction:column; gap:8px; }
+  .cx-hero__meta b { color:#fff; font-weight:400; }
+
+  /* ── City index ── */
+  .cx-cities { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; padding:4px; }
+  .cx-city { position:relative; aspect-ratio:3/4.4; overflow:hidden; background:#151515; display:block; cursor:pointer; }
+  .cx-city img { width:100%; height:100%; object-fit:cover; transition:transform .9s cubic-bezier(.2,.7,.2,1), filter .6s; filter:grayscale(.35) brightness(.78); }
+  .cx-city:hover img, .cx-city:focus-visible img { transform:scale(1.05); filter:grayscale(0) brightness(.92); }
+  .cx-city::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 16%),linear-gradient(to top,rgba(0,0,0,.86) 0%,rgba(0,0,0,0) 52%); pointer-events:none; }
+  .cx-city__num, .cx-city__count { color:rgba(255,255,255,.75); }
+  .cx-city__num { position:absolute; top:16px; left:18px; z-index:2; }
+  .cx-city__count { position:absolute; top:16px; right:18px; z-index:2; }
+  .cx-city__info { position:absolute; left:20px; right:20px; bottom:22px; z-index:2; }
+  .cx-city__name { font-family:var(--serif); font-style:italic; font-weight:300; color:#fff; font-size:clamp(40px,4.4vw,72px); line-height:.95; }
+  .cx-city__fw { margin:8px 0 14px; color:rgba(255,255,255,.55); }
+  .cx-city__series { font-family:var(--serif); font-size:17px; color:rgba(255,255,255,.6); line-height:1.4; }
+  .cx-city__go { display:inline-block; margin-top:14px; color:#fff; border-bottom:1px solid rgba(255,255,255,.35); padding-bottom:2px; }
+
+  /* ── City view ── */
+  .cx-view { display:none; }
+  body.is-city .cx-index { display:none; }
+  body.is-city .cx-view { display:block; }
+  .cx-vhead { padding:130px 40px 0; }
+  .cx-back { display:inline-block; margin-bottom:26px; transition:color .2s; }
+  .cx-back:hover { color:#fff; }
+  .cx-vhead__row { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; padding-bottom:26px; border-bottom:1px solid rgba(255,255,255,.08); }
+  .cx-vhead__title { font-family:var(--serif); font-style:italic; font-weight:300; color:#fff; font-size:clamp(54px,8vw,120px); line-height:.9; }
+  .cx-vhead__title small { display:block; font-family:var(--sc); font-style:normal; font-size:.2em; letter-spacing:.3em; color:rgba(255,255,255,.4); margin-top:14px; }
+  .cx-tabs { display:flex; flex-wrap:wrap; gap:6px 22px; padding:18px 40px; border-bottom:1px solid rgba(255,255,255,.08); position:sticky; top:58px; z-index:50; background:rgba(10,10,10,.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+  .cx-tabs button { font:inherit; letter-spacing:inherit; text-transform:inherit; color:rgba(255,255,255,.42); background:none; border:none; cursor:pointer; padding:4px 0; border-bottom:1px solid transparent; transition:color .2s,border-color .2s; }
+  .cx-tabs button:hover { color:rgba(255,255,255,.8); }
+  .cx-tabs button.is-on { color:#fff; border-bottom-color:rgba(255,255,255,.5); }
+  .cx-tabs button sup { font-size:9px; margin-left:4px; opacity:.6; }
+
+  .cx-series { padding:44px 20px 10px; }
+  .cx-series__head { display:flex; align-items:baseline; gap:16px; padding:0 20px 18px; }
+  .cx-series__name { font-family:var(--serif); font-style:italic; font-size:clamp(28px,3vw,42px); color:#fff; font-weight:300; }
+  .cx-grid { columns:4 260px; column-gap:4px; }
+  .cx-ph { break-inside:avoid; margin-bottom:4px; position:relative; overflow:hidden; background:#161616; cursor:zoom-in; display:block; width:100%; border:0; padding:0; }
+  .cx-ph img { width:100%; height:auto; opacity:0; transition:opacity .6s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .cx-ph img.is-in { opacity:1; }
+  .cx-ph:hover img { transform:scale(1.025); }
+  .cx-ph__n { position:absolute; bottom:8px; right:10px; font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:rgba(255,255,255,0); transition:color .3s; }
+  .cx-ph:hover .cx-ph__n { color:rgba(255,255,255,.7); }
+
+  .cx-next { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid rgba(255,255,255,.08); margin-top:50px; }
+  .cx-next a { padding:38px 40px; display:block; transition:background .3s; }
+  .cx-next a:hover { background:#111; }
+  .cx-next a + a { text-align:right; border-left:1px solid rgba(255,255,255,.08); }
+  .cx-next span { display:block; font-family:var(--serif); font-style:italic; font-size:clamp(30px,3.4vw,52px); color:#fff; margin-top:6px; }
+
+  .cx-foot { border-top:1px solid rgba(255,255,255,.08); padding:16px 40px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .cx-foot a:hover { color:#fff; }
+
+  /* ── Lightbox ── */
+  .lb { position:fixed; inset:0; z-index:5000; background:rgba(6,6,6,.97); display:none; align-items:center; justify-content:center; }
+  .lb.is-open { display:flex; }
+  .lb img { max-width:calc(100vw - 160px); max-height:calc(100vh - 120px); object-fit:contain; transition:opacity .25s; }
+  .lb img.is-loading { opacity:.25; }
+  .lb button { position:absolute; background:none; border:none; color:rgba(255,255,255,.6); cursor:pointer; font-family:var(--mono); transition:color .2s; }
+  .lb button:hover { color:#fff; }
+  .lb__x { top:20px; right:26px; font-size:12px; letter-spacing:.2em; }
+  .lb__prev, .lb__next { top:50%; transform:translateY(-50%); font-size:30px; padding:20px; font-family:var(--serif); }
+  .lb__prev { left:14px; } .lb__next { right:14px; }
+  .lb__cap { position:absolute; bottom:22px; left:0; right:0; text-align:center; }
+
+  @media (max-width:1000px) { .cx-cities { grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px) {
+    .cx-hero { padding:110px 20px 36px; grid-template-columns:1fr; }
+    .cx-hero__meta { text-align:left; }
+    .cx-cities { grid-template-columns:1fr; }
+    .cx-city { aspect-ratio:4/5; }
+    .cx-vhead { padding:100px 20px 0; }
+    .cx-vhead__row { flex-direction:column; align-items:flex-start; }
+    .cx-tabs { padding:14px 20px; top:54px; }
+    .cx-series { padding:34px 4px 6px; }
+    .cx-series__head { padding:0 14px 14px; }
+    .cx-grid { columns:2; }
+    .cx-next a { padding:26px 20px; }
+    .cx-foot { padding:16px 20px; }
+    .lb img { max-width:100vw; max-height:calc(100vh - 110px); }
+    .lb__prev, .lb__next { display:none; }
+  }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav is-scrolled" id="site-nav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="site-nav__logo" aria-label="VRASA — Home"><svg viewBox="0 0 520 148" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="height:40px;width:auto;color:inherit;display:block;"><text x="260" y="78" text-anchor="middle" font-family="'Playfair Display','Cormorant SC',serif" font-weight="900" font-size="88" letter-spacing="10" fill="currentColor">VRASA</text><g transform="translate(260,96)" stroke-linecap="round" fill="none" stroke="currentColor" stroke-width="1.2"><line x1="-108" y1="0" x2="-22" y2="0"/><line x1="22" y1="0" x2="108" y2="0"/><path d="M -22 0 C -16 -6,-8 -6,-4 -3"/><path d="M 22 0 C 16 -6,8 -6,4 -3"/></g><circle cx="260" cy="96" r="2.2" fill="currentColor"/><text x="260" y="130" text-anchor="middle" font-family="'Cormorant Garamond','Cormorant',Georgia,serif" font-style="italic" font-weight="400" font-size="17" letter-spacing="3" fill="currentColor" opacity="0.72">by Sri Vrashank</text></svg></a>
+  <div class="site-nav__links">
+      <a href="index.html">Home</a>
+      <a href="archive.html">Portfolio</a>
+      <a href="circuit.html" class="is-active">The Circuit</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+  </div>
+</nav>
+<div class="page-veil" id="page-veil" aria-hidden="true"></div>
+
+<main>
+  <!-- ═════ INDEX: four cities ═════ -->
+  <section class="cx-index">
+    <header class="cx-hero">
+      <div>
+        <div class="mono">VRASA · Fashion Weeks · 2026</div>
+        <h1 class="cx-hero__title">The Circuit</h1>
+        <p class="cx-hero__sub">One season, four cities: the shows, the streets and the people between them.</p>
+      </div>
+      <div class="cx-hero__meta mono" id="cx-meta"></div>
+    </header>
+    <div class="cx-cities" id="cx-cities"></div>
+  </section>
+
+  <!-- ═════ CITY VIEW ═════ -->
+  <section class="cx-view" id="cx-view" aria-live="polite"></section>
+</main>
+
+<footer class="cx-foot mono">
+  <span>© VRASA · Sri Vrushank</span>
+  <a href="contact.html">Enquire →</a>
+</footer>
+
+<!-- Lightbox -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lb__x" id="lb-x" aria-label="Close">Close ✕</button>
+  <button class="lb__prev" id="lb-prev" aria-label="Previous photo">←</button>
+  <img id="lb-img" alt="">
+  <button class="lb__next" id="lb-next" aria-label="Next photo">→</button>
+  <div class="lb__cap mono" id="lb-cap"></div>
+</div>
+
+<script src="assets/js/vrasa.js"></script>
+<script>
+/* Photo manifest (generated from shoots/circuit/manifest.json) */
+var SERIES = [{"city":"munich","slug":"casting-day","title":"Models, Casting Day","images":[{"n":"01","w":1440,"h":1800},{"n":"02","w":1440,"h":1800},{"n":"03","w":1440,"h":1800},{"n":"04","w":1440,"h":1800},{"n":"05","w":1440,"h":1800},{"n":"06","w":1440,"h":1800},{"n":"07","w":1440,"h":1800},{"n":"08","w":1440,"h":1800},{"n":"09","w":1440,"h":1800},{"n":"10","w":1440,"h":1800},{"n":"11","w":1440,"h":1800},{"n":"12","w":1440,"h":1800},{"n":"13","w":1440,"h":1800},{"n":"14","w":1440,"h":1800},{"n":"15","w":1440,"h":1800},{"n":"16","w":1440,"h":1800},{"n":"17","w":1440,"h":1800},{"n":"18","w":1440,"h":1800},{"n":"19","w":1440,"h":1800},{"n":"20","w":1440,"h":1800},{"n":"21","w":1440,"h":1800},{"n":"22","w":1440,"h":1800},{"n":"23","w":1440,"h":1800},{"n":"24","w":1440,"h":1800},{"n":"25","w":1440,"h":1800},{"n":"26","w":1440,"h":1800},{"n":"27","w":1440,"h":1800},{"n":"28","w":1440,"h":1800},{"n":"29","w":1440,"h":1800}]},{"city":"munich","slug":"pia-bolte","title":"Pia Bolte","images":[{"n":"01","w":1440,"h":1800},{"n":"02","w":1440,"h":1800},{"n":"03","w":1440,"h":1800},{"n":"04","w":1440,"h":1800},{"n":"05","w":1440,"h":1800},{"n":"06","w":1440,"h":1800},{"n":"07","w":1440,"h":1800},{"n":"08","w":1440,"h":1800},{"n":"09","w":1440,"h":1800},{"n":"10","w":1440,"h":1800},{"n":"11","w":1440,"h":1800},{"n":"12","w":1440,"h":1800},{"n":"13","w":1440,"h":1800},{"n":"14","w":1440,"h":1800},{"n":"15","w":1440,"h":1800},{"n":"16","w":1440,"h":1800},{"n":"17","w":1440,"h":1800},{"n":"18","w":1440,"h":1800},{"n":"19","w":1440,"h":1800},{"n":"20","w":1440,"h":1800},{"n":"21","w":1440,"h":1800},{"n":"22","w":1440,"h":1800},{"n":"23","w":1440,"h":1800},{"n":"24","w":1440,"h":1800},{"n":"25","w":1440,"h":1800},{"n":"26","w":1440,"h":1800},{"n":"27","w":1440,"h":1800},{"n":"28","w":1440,"h":1800},{"n":"29","w":1440,"h":1800},{"n":"30","w":1440,"h":1800},{"n":"31","w":1440,"h":1800},{"n":"32","w":1440,"h":1800},{"n":"33","w":1440,"h":1800},{"n":"34","w":1440,"h":1800},{"n":"35","w":1440,"h":1800},{"n":"36","w":1440,"h":1800}]},{"city":"milan","slug":"selects-i","title":"Selects I","images":[{"n":"01","w":1200,"h":1800},{"n":"02","w":1200,"h":1800},{"n":"03","w":1800,"h":1200},{"n":"04","w":1800,"h":1200},{"n":"05","w":1200,"h":1800},{"n":"06","w":1200,"h":1800},{"n":"07","w":1200,"h":1800},{"n":"08","w":1200,"h":1800},{"n":"09","w":1200,"h":1800},{"n":"10","w":1200,"h":1800},{"n":"11","w":1200,"h":1800},{"n":"12","w":1200,"h":1800},{"n":"13","w":1200,"h":1800},{"n":"14","w":1200,"h":1800},{"n":"15","w":1200,"h":1800},{"n":"16","w":1200,"h":1800},{"n":"17","w":1440,"h":1800},{"n":"18","w":1800,"h":1200},{"n":"19","w":1800,"h":1200},{"n":"20","w":1800,"h":1200},{"n":"21","w":1440,"h":1800},{"n":"22","w":1440,"h":1800},{"n":"23","w":1440,"h":1800},{"n":"24","w":1440,"h":1800},{"n":"25","w":1200,"h":1800},{"n":"26","w":1200,"h":1800},{"n":"27","w":1200,"h":1800},{"n":"28","w":1200,"h":1800},{"n":"29","w":1200,"h":1800}]},{"city":"milan","slug":"selects-ii","title":"Selects II","images":[{"n":"01","w":1440,"h":1800},{"n":"02","w":1440,"h":1800},{"n":"03","w":1440,"h":1800},{"n":"04","w":1440,"h":1800},{"n":"05","w":1440,"h":1800},{"n":"06","w":1440,"h":1800},{"n":"07","w":1440,"h":1800},{"n":"08","w":1440,"h":1800},{"n":"09","w":1440,"h":1800},{"n":"10","w":1800,"h":1012},{"n":"11","w":1440,"h":1800},{"n":"12","w":1440,"h":1800},{"n":"13","w":1440,"h":1800},{"n":"14","w":1440,"h":1800},{"n":"15","w":1440,"h":1800},{"n":"16","w":1440,"h":1800},{"n":"17","w":1440,"h":1800},{"n":"18","w":1440,"h":1800},{"n":"19","w":1440,"h":1800},{"n":"20","w":1440,"h":1800},{"n":"21","w":1440,"h":1800},{"n":"22","w":1440,"h":1800},{"n":"23","w":1440,"h":1800},{"n":"24","w":1440,"h":1800},{"n":"25","w":1440,"h":1800},{"n":"26","w":1440,"h":1800},{"n":"27","w":1440,"h":1800},{"n":"28","w":1440,"h":1800},{"n":"29","w":1440,"h":1800},{"n":"30","w":1440,"h":1800},{"n":"31","w":1440,"h":1800},{"n":"32","w":1440,"h":1800},{"n":"33","w":1440,"h":1800},{"n":"34","w":1440,"h":1800},{"n":"35","w":1440,"h":1800},{"n":"36","w":1440,"h":1800},{"n":"37","w":1440,"h":1800},{"n":"38","w":1440,"h":1800},{"n":"39","w":1440,"h":1800},{"n":"40","w":1440,"h":1800},{"n":"41","w":1800,"h":1200},{"n":"42","w":1440,"h":1800},{"n":"43","w":1440,"h":1800},{"n":"44","w":1440,"h":1800},{"n":"45","w":1440,"h":1800},{"n":"46","w":1440,"h":1800},{"n":"47","w":1440,"h":1800},{"n":"48","w":1440,"h":1800},{"n":"49","w":1440,"h":1800},{"n":"50","w":1440,"h":1800},{"n":"51","w":1440,"h":1800},{"n":"52","w":1440,"h":1800},{"n":"53","w":1440,"h":1800},{"n":"54","w":1200,"h":1800},{"n":"55","w":1440,"h":1800},{"n":"56","w":1440,"h":1800},{"n":"57","w":1440,"h":1800},{"n":"58","w":1440,"h":1800},{"n":"59","w":1440,"h":1800},{"n":"60","w":1440,"h":1800},{"n":"61","w":1440,"h":1800},{"n":"62","w":1440,"h":1800},{"n":"63","w":1440,"h":1800},{"n":"64","w":1441,"h":1800},{"n":"65","w":1440,"h":1800},{"n":"66","w":1440,"h":1800},{"n":"67","w":1440,"h":1800},{"n":"68","w":1800,"h":1200},{"n":"69","w":1800,"h":1200}]},{"city":"paris","slug":"rick-owens","title":"Rick Owens","images":[{"n":"01","w":1440,"h":1800},{"n":"02","w":1440,"h":1800},{"n":"03","w":1440,"h":1800},{"n":"04","w":1440,"h":1800},{"n":"05","w":1800,"h":1012},{"n":"06","w":1800,"h":1013},{"n":"07","w":1800,"h":1013},{"n":"08","w":1440,"h":1800},{"n":"09","w":1440,"h":1800},{"n":"10","w":1440,"h":1800},{"n":"11","w":1440,"h":1800},{"n":"12","w":1440,"h":1800},{"n":"13","w":1440,"h":1800},{"n":"14","w":1440,"h":1800},{"n":"15","w":1440,"h":1800},{"n":"16","w":1440,"h":1800},{"n":"17","w":1440,"h":1800},{"n":"18","w":1440,"h":1800},{"n":"19","w":1440,"h":1800},{"n":"20","w":1440,"h":1800},{"n":"21","w":1440,"h":1800},{"n":"22","w":1800,"h":1440},{"n":"23","w":1440,"h":1800},{"n":"24","w":1440,"h":1800},{"n":"25","w":1440,"h":1800},{"n":"26","w":1440,"h":1800},{"n":"27","w":1440,"h":1800},{"n":"28","w":1440,"h":1800},{"n":"29","w":1440,"h":1800},{"n":"30","w":1440,"h":1800},{"n":"31","w":1440,"h":1800},{"n":"32","w":1440,"h":1800},{"n":"33","w":1440,"h":1800},{"n":"34","w":1440,"h":1800},{"n":"35","w":1440,"h":1800},{"n":"36","w":1440,"h":1800},{"n":"37","w":1800,"h":1440},{"n":"38","w":1440,"h":1800},{"n":"39","w":1800,"h":1440},{"n":"40","w":1800,"h":1440},{"n":"41","w":1440,"h":1800},{"n":"42","w":1800,"h":1440},{"n":"43","w":1800,"h":1440},{"n":"44","w":1440,"h":1800},{"n":"45","w":1440,"h":1800},{"n":"46","w":1800,"h":1013},{"n":"47","w":1800,"h":1013},{"n":"48","w":1440,"h":1800},{"n":"49","w":1440,"h":1800},{"n":"50","w":1440,"h":1800},{"n":"51","w":1440,"h":1800},{"n":"52","w":1800,"h":1440}]},{"city":"paris","slug":"kilian-day","title":"Kilian Day","images":[{"n":"01","w":1440,"h":1800},{"n":"02","w":1440,"h":1800},{"n":"03","w":1440,"h":1800},{"n":"04","w":1440,"h":1800},{"n":"05","w":1440,"h":1800},{"n":"06","w":1440,"h":1800},{"n":"07","w":1440,"h":1800},{"n":"08","w":1440,"h":1800},{"n":"09","w":1440,"h":1800},{"n":"10","w":1440,"h":1800},{"n":"11","w":1800,"h":1012},{"n":"12","w":1440,"h":1800},{"n":"13","w":1440,"h":1800},{"n":"14","w":1440,"h":1800}]},{"city":"berlin","slug":"neofashion","title":"Neofashion","images":[{"n":"01","w":1440,"h":1800},{"n":"02","w":1440,"h":1800},{"n":"03","w":1440,"h":1800},{"n":"04","w":1440,"h":1800},{"n":"05","w":1440,"h":1800},{"n":"06","w":1440,"h":1800},{"n":"07","w":1440,"h":1800},{"n":"08","w":1440,"h":1800},{"n":"09","w":1440,"h":1800},{"n":"10","w":1440,"h":1800},{"n":"11","w":1440,"h":1800},{"n":"12","w":1440,"h":1800}]},{"city":"berlin","slug":"platte","title":"Platte","images":[{"n":"01","w":1350,"h":1800},{"n":"02","w":1440,"h":1800},{"n":"03","w":1440,"h":1800},{"n":"04","w":1440,"h":1800},{"n":"05","w":1440,"h":1800},{"n":"06","w":1440,"h":1800},{"n":"07","w":1440,"h":1800},{"n":"08","w":1440,"h":1800},{"n":"09","w":1440,"h":1800},{"n":"10","w":1350,"h":1800},{"n":"11","w":1350,"h":1800}]},{"city":"berlin","slug":"platte-attendees","title":"Platte — Attendees","images":[{"n":"01","w":1350,"h":1800},{"n":"02","w":1350,"h":1800},{"n":"03","w":1350,"h":1800},{"n":"04","w":1350,"h":1800},{"n":"05","w":1350,"h":1800},{"n":"06","w":1350,"h":1800},{"n":"07","w":1350,"h":1800},{"n":"08","w":1350,"h":1800},{"n":"09","w":1350,"h":1800},{"n":"10","w":1350,"h":1800},{"n":"11","w":1350,"h":1800},{"n":"12","w":1440,"h":1800},{"n":"13","w":1350,"h":1800},{"n":"14","w":1440,"h":1800},{"n":"15","w":1800,"h":1012},{"n":"16","w":1800,"h":1013},{"n":"17","w":1800,"h":1013},{"n":"18","w":1350,"h":1800},{"n":"19","w":1440,"h":1800},{"n":"20","w":1440,"h":1800},{"n":"21","w":1440,"h":1800},{"n":"22","w":1440,"h":1800},{"n":"23","w":1440,"h":1800},{"n":"24","w":1440,"h":1800},{"n":"25","w":1440,"h":1800},{"n":"26","w":1440,"h":1800},{"n":"27","w":1440,"h":1800}]},{"city":"berlin","slug":"walkon","title":"WalkOn · House of Walk","images":[{"n":"01","w":1440,"h":1800}]}];
+
+var CITIES = [
+  { id:'munich', name:'Munich', fw:'Munich Fashion Week', cover:['pia-bolte','16'] },
+  { id:'milan',  name:'Milan',  fw:'Milano Fashion Week', cover:['selects-ii','35'] },
+  { id:'paris',  name:'Paris',  fw:'Paris Fashion Week',  cover:['rick-owens','19'] },
+  { id:'berlin', name:'Berlin', fw:'Berlin Fashion Week', cover:['platte','05'] }
+];
+var BASE = 'shoots/circuit/';
+function src(city, slug, n, thumb){ return BASE + city + '/' + slug + '/' + n + (thumb ? '_t' : '') + '.jpg'; }
+function seriesOf(city){ return SERIES.filter(function(s){ return s.city === city; }); }
+function countOf(city){ return seriesOf(city).reduce(function(a,s){ return a + s.images.length; }, 0); }
+function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+/* ── Index ── */
+(function(){
+  var total = SERIES.reduce(function(a,s){ return a + s.images.length; }, 0);
+  document.getElementById('cx-meta').innerHTML =
+    '<span><b>04</b> Cities</span><span><b>' + SERIES.length + '</b> Series</span><span><b>' + total + '</b> Photographs</span>';
+  document.getElementById('cx-cities').innerHTML = CITIES.map(function(c, i){
+    var s = seriesOf(c.id);
+    return '<a class="cx-city" href="#' + c.id + '" aria-label="' + c.fw + ', ' + countOf(c.id) + ' photographs">' +
+      '<img src="' + src(c.id, c.cover[0], c.cover[1], true) + '" srcset="' + src(c.id, c.cover[0], c.cover[1], true) + ' 720w, ' + src(c.id, c.cover[0], c.cover[1]) + ' 1800w" sizes="(max-width:600px) 100vw, (max-width:1000px) 50vw, 25vw" alt="" loading="' + (i < 2 ? 'eager' : 'lazy') + '" decoding="async">' +
+      '<span class="cx-city__num mono">0' + (i+1) + '</span>' +
+      '<span class="cx-city__count mono">' + countOf(c.id) + ' Frames</span>' +
+      '<span class="cx-city__info">' +
+        '<span class="cx-city__name">' + c.name + '</span>' +
+        '<span class="cx-city__fw mono" style="display:block">' + c.fw + ' · 2026</span>' +
+        '<span class="cx-city__series" style="display:block">' + s.map(function(x){ return esc(x.title); }).join(' · ') + '</span>' +
+        '<span class="cx-city__go mono">Enter →</span>' +
+      '</span></a>';
+  }).join('');
+})();
+
+/* ── City view ── */
+var view = document.getElementById('cx-view');
+var flat = [];   // photos of the current view, for the lightbox
+
+function renderCity(id, filter){
+  var ci = CITIES.findIndex(function(c){ return c.id === id; });
+  if (ci < 0) { document.body.classList.remove('is-city'); document.title = 'The Circuit — Fashion Weeks · VRASA by Sri Vrushank'; return; }
+  var c = CITIES[ci], all = seriesOf(id);
+  var shown = filter ? all.filter(function(s){ return s.slug === filter; }) : all;
+  if (!shown.length) { shown = all; filter = null; }
+  var prev = CITIES[(ci + 3) % 4], next = CITIES[(ci + 1) % 4];
+  flat = [];
+
+  var html =
+    '<header class="cx-vhead">' +
+      '<a class="cx-back mono" href="#">← The Circuit</a>' +
+      '<div class="cx-vhead__row">' +
+        '<h1 class="cx-vhead__title">' + c.name + '<small>' + c.fw + ' · 2026</small></h1>' +
+        '<div class="mono">' + countOf(id) + ' Photographs · ' + all.length + ' Series</div>' +
+      '</div>' +
+    '</header>' +
+    '<nav class="cx-tabs mono" aria-label="Series">' +
+      '<button data-s="" class="' + (filter ? '' : 'is-on') + '">All<sup>' + countOf(id) + '</sup></button>' +
+      all.map(function(s){ return '<button data-s="' + s.slug + '" class="' + (filter === s.slug ? 'is-on' : '') + '">' + esc(s.title) + '<sup>' + s.images.length + '</sup></button>'; }).join('') +
+    '</nav>';
+
+  shown.forEach(function(s){
+    html += '<section class="cx-series" id="s-' + s.slug + '">' +
+      '<div class="cx-series__head"><h2 class="cx-series__name">' + esc(s.title) + '</h2><span class="mono">' + s.images.length + ' Frames</span></div>' +
+      '<div class="cx-grid">';
+    s.images.forEach(function(im, k){
+      var idx = flat.length;
+      flat.push({ city:c, s:s, im:im, k:k });
+      html += '<button class="cx-ph" data-i="' + idx + '" aria-label="Open ' + esc(s.title) + ' photo ' + (k+1) + '">' +
+        '<img src="' + src(id, s.slug, im.n, true) + '" width="' + im.w + '" height="' + im.h + '" alt="' + esc(c.name + ' Fashion Week — ' + s.title + ', frame ' + (k+1)) + '" loading="lazy" decoding="async">' +
+        '<span class="cx-ph__n">' + String(k+1).padStart(2,'0') + '</span></button>';
+    });
+    html += '</div></section>';
+  });
+
+  html += '<div class="cx-next mono">' +
+    '<a href="#' + prev.id + '">← Previous<span>' + prev.name + '</span></a>' +
+    '<a href="#' + next.id + '">Next →<span>' + next.name + '</span></a></div>';
+
+  view.innerHTML = html;
+  document.body.classList.add('is-city');
+  document.title = c.name + ' — The Circuit · VRASA';
+
+  view.querySelectorAll('.cx-ph img').forEach(function(img){
+    if (img.complete) img.classList.add('is-in');
+    else img.addEventListener('load', function(){ img.classList.add('is-in'); }, { once:true });
+  });
+}
+
+function route(scroll){
+  var h = location.hash.replace('#','').split('/');
+  renderCity(h[0], h[1] || null);
+  if (scroll) window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', function(){ route(true); });
+route(false);
+
+view.addEventListener('click', function(e){
+  var tab = e.target.closest('.cx-tabs button');
+  if (tab) {
+    var city = location.hash.replace('#','').split('/')[0];
+    history.replaceState(null, '', '#' + city + (tab.dataset.s ? '/' + tab.dataset.s : ''));
+    renderCity(city, tab.dataset.s || null);
+    var top = document.querySelector('.cx-tabs').offsetTop - 58;
+    if (window.scrollY > top) window.scrollTo(0, top);
+    return;
+  }
+  var ph = e.target.closest('.cx-ph');
+  if (ph) openLb(+ph.dataset.i);
+});
+
+/* ── Lightbox ── */
+var lb = document.getElementById('lb'), lbImg = document.getElementById('lb-img'), lbCap = document.getElementById('lb-cap'), cur = 0, lastFocus = null;
+function showLb(i){
+  cur = (i + flat.length) % flat.length;
+  var p = flat[cur];
+  lbImg.classList.add('is-loading');
+  lbImg.onload = function(){ lbImg.classList.remove('is-loading'); };
+  lbImg.src = src(p.city.id, p.s.slug, p.im.n);
+  lbImg.alt = p.city.name + ' Fashion Week — ' + p.s.title + ', frame ' + (p.k+1);
+  lbCap.textContent = p.city.name + ' · ' + p.s.title + ' · ' + String(p.k+1).padStart(2,'0') + ' / ' + String(p.s.images.length).padStart(2,'0');
+  [1,-1].forEach(function(d){ var q = flat[(cur + d + flat.length) % flat.length]; new Image().src = src(q.city.id, q.s.slug, q.im.n); });
+}
+function openLb(i){ lastFocus = document.activeElement; showLb(i); lb.classList.add('is-open'); document.body.style.overflow = 'hidden'; document.getElementById('lb-x').focus(); }
+function closeLb(){ lb.classList.remove('is-open'); document.body.style.overflow = ''; lbImg.removeAttribute('src'); if (lastFocus) lastFocus.focus(); }
+document.getElementById('lb-x').onclick = closeLb;
+document.getElementById('lb-prev').onclick = function(){ showLb(cur - 1); };
+document.getElementById('lb-next').onclick = function(){ showLb(cur + 1); };
+lb.addEventListener('click', function(e){ if (e.target === lb) closeLb(); });
+document.addEventListener('keydown', function(e){
+  if (!lb.classList.contains('is-open')) return;
+  if (e.key === 'Escape') closeLb();
+  else if (e.key === 'ArrowRight') showLb(cur + 1);
+  else if (e.key === 'ArrowLeft') showLb(cur - 1);
+});
+var tx = null;
+lb.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, { passive:true });
+lb.addEventListener('touchend', function(e){
+  if (tx === null) return;
+  var dx = e.changedTouches[0].clientX - tx; tx = null;
+  if (Math.abs(dx) > 50) showLb(cur + (dx < 0 ? 1 : -1));
+});
+
+/* ── Page transition veil (same as other pages) ── */
+!function(){
+  var v = document.getElementById('page-veil'); if (!v) return;
+  v.style.opacity = '1'; v.style.transition = 'none';
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    v.style.transition = 'opacity .52s cubic-bezier(.4,0,.2,1)'; v.style.opacity = '0';
+  }); });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href]'); if (!a) return;
+    var h = a.getAttribute('href');
+    if (!h || /^(#|https?:|mailto:|tel:|javascript)/.test(h) || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    v.style.transition = 'opacity .38s cubic-bezier(.4,0,.2,1)'; v.style.opacity = '1'; v.style.pointerEvents = 'all';
+    setTimeout(function(){ window.location.href = h; }, 400);
+  });
+}();
+</script>
+</body>
+</html>
