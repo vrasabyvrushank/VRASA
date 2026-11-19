@@ -428,6 +428,9 @@ const PROJECTS = [
 // ── Init ─────────────────────────────────────────────────────────────────────
 const params  = new URLSearchParams(window.location.search);
 const projIdx = parseInt(params.get('id') || '0', 10);
+/* Fashion week projects moved to The Circuit */
+if (projIdx === 7) location.replace('circuit.html#munich');
+if (projIdx === 8) location.replace('circuit.html#berlin');
 const project = PROJECTS[Math.max(0, Math.min(projIdx, PROJECTS.length - 1))];
 
 // Update page title

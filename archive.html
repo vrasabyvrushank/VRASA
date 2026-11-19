@@ -420,7 +420,7 @@
     <button data-filter="Events">Events</button>
     <button data-filter="Fashion Week">Fashion Week</button>
   </div>
-  <span id="arch-count">9 Projects</span>
+  <span id="arch-count">11 Projects</span>
 </div>
 
 <!-- GRID -->
@@ -512,27 +512,51 @@
     </article>
 
 
-    <article class="arch-card" data-cat="Fashion Week" data-project="7" tabindex="0" role="button" aria-label="Open project: Munich Fashion Week 2026">
-      <img class="arch-card__img" src="shoots/Munich%20Fashion%20Week%202026/Pia%20Bolte/DSC02021-Edit-2.jpg" alt="Munich Fashion Week 2026" loading="lazy" style="object-position:50% 20%;">
+    <article class="arch-card" data-cat="Fashion Week" data-href="circuit.html#munich" tabindex="0" role="link" aria-label="Open Munich Fashion Week 2026">
+      <img class="arch-card__img" src="shoots/circuit/munich/pia-bolte/16_t.jpg" srcset="shoots/circuit/munich/pia-bolte/16_t.jpg 720w, shoots/circuit/munich/pia-bolte/16.jpg 1800w" sizes="(max-width:700px) 50vw, 25vw" alt="Munich Fashion Week 2026" loading="lazy" style="object-position:50% 25%;">
       <div class="arch-card__scrim"></div>
       <span class="arch-card__num"><span class="arch-card__cat-dot"></span>08 · Fashion Week</span>
       <span class="arch-card__enter">Enter →</span>
       <div class="arch-card__bottom">
-        <span class="arch-card__cat-label">Fashion Week</span>
-        <h2 class="arch-card__title">Munich Fashion Week 2026.</h2>
-        <p class="arch-card__frames">148 Frames · Models &amp; Pia Bolte · Spring 2026</p>
+        <span class="arch-card__cat-label">The Circuit</span>
+        <h2 class="arch-card__title">Munich Fashion Week.</h2>
+        <p class="arch-card__frames">65 Frames · Pia Bolte &amp; Casting Day · 2026</p>
       </div>
     </article>
 
-    <article class="arch-card" data-cat="Fashion Week" data-project="8" tabindex="0" role="button" aria-label="Open project: Berlin Fashion Week 2026">
-      <img class="arch-card__img" src="shoots/berlin%20fashionweek%202026/neofashion/DSC04217-Edit.jpg" alt="Berlin Fashion Week 2026" loading="lazy" style="object-position:50% 30%;">
+    <article class="arch-card" data-cat="Fashion Week" data-href="circuit.html#milan" tabindex="0" role="link" aria-label="Open Milan Fashion Week 2026">
+      <img class="arch-card__img" src="shoots/circuit/milan/selects-ii/35_t.jpg" srcset="shoots/circuit/milan/selects-ii/35_t.jpg 720w, shoots/circuit/milan/selects-ii/35.jpg 1800w" sizes="(max-width:700px) 50vw, 25vw" alt="Milan Fashion Week 2026" loading="lazy" style="object-position:50% 30%;">
       <div class="arch-card__scrim"></div>
       <span class="arch-card__num"><span class="arch-card__cat-dot"></span>09 · Fashion Week</span>
       <span class="arch-card__enter">Enter →</span>
       <div class="arch-card__bottom">
-        <span class="arch-card__cat-label">Fashion Week</span>
-        <h2 class="arch-card__title">Berlin Fashion Week 2026.</h2>
-        <p class="arch-card__frames">51 Frames · Neofashion, WalkOn &amp; Platte · Spring 2026</p>
+        <span class="arch-card__cat-label">The Circuit</span>
+        <h2 class="arch-card__title">Milan Fashion Week.</h2>
+        <p class="arch-card__frames">98 Frames · Runway &amp; Portraits · 2026</p>
+      </div>
+    </article>
+
+    <article class="arch-card" data-cat="Fashion Week" data-href="circuit.html#paris" tabindex="0" role="link" aria-label="Open Paris Fashion Week 2026">
+      <img class="arch-card__img" src="shoots/circuit/paris/rick-owens/19_t.jpg" srcset="shoots/circuit/paris/rick-owens/19_t.jpg 720w, shoots/circuit/paris/rick-owens/19.jpg 1800w" sizes="(max-width:700px) 50vw, 25vw" alt="Paris Fashion Week 2026" loading="lazy" style="object-position:50% 30%;">
+      <div class="arch-card__scrim"></div>
+      <span class="arch-card__num"><span class="arch-card__cat-dot"></span>10 · Fashion Week</span>
+      <span class="arch-card__enter">Enter →</span>
+      <div class="arch-card__bottom">
+        <span class="arch-card__cat-label">The Circuit</span>
+        <h2 class="arch-card__title">Paris Fashion Week.</h2>
+        <p class="arch-card__frames">66 Frames · Rick Owens &amp; Kilian Day · 2026</p>
+      </div>
+    </article>
+
+    <article class="arch-card" data-cat="Fashion Week" data-href="circuit.html#berlin" tabindex="0" role="link" aria-label="Open Berlin Fashion Week 2026">
+      <img class="arch-card__img" src="shoots/circuit/berlin/platte/05_t.jpg" srcset="shoots/circuit/berlin/platte/05_t.jpg 720w, shoots/circuit/berlin/platte/05.jpg 1800w" sizes="(max-width:700px) 50vw, 25vw" alt="Berlin Fashion Week 2026" loading="lazy" style="object-position:50% 25%;">
+      <div class="arch-card__scrim"></div>
+      <span class="arch-card__num"><span class="arch-card__cat-dot"></span>11 · Fashion Week</span>
+      <span class="arch-card__enter">Enter →</span>
+      <div class="arch-card__bottom">
+        <span class="arch-card__cat-label">The Circuit</span>
+        <h2 class="arch-card__title">Berlin Fashion Week.</h2>
+        <p class="arch-card__frames">51 Frames · Neofashion, Platte &amp; WalkOn · 2026</p>
       </div>
     </article>
 
@@ -747,7 +771,7 @@
 
   // Card click — navigate to dedicated project page
   cards.forEach(card => {
-    const go = () => { window.location.href = 'project.html?id=' + card.dataset.project; };
+    const go = () => { window.location.href = card.dataset.href || ('project.html?id=' + card.dataset.project); };
     card.addEventListener('click', go);
     card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
   });

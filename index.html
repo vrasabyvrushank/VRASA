@@ -99,7 +99,7 @@
   ===================================================== */
   .split {
     display:grid;
-    grid-template-columns:42% 58%;
+    grid-template-columns:1fr 1fr;
     grid-template-rows:1fr auto;
     height:100vh;
     overflow:hidden;
@@ -250,6 +250,40 @@
     transition:background .2s, color .2s; flex-shrink:0; margin-left:20px;
   }
   .split__open-btn:hover { background:var(--black); color:var(--cream); }
+
+  /* Two featured projects side by side */
+  .split__feat--circuit { grid-column:1; border-left:none; }
+  a.split__feat-img-wrap { display:block; }
+  a.split__open-btn { text-decoration:none; display:inline-block; }
+
+  /* ON THE CIRCUIT band — fashion week logos, one row (above the photo drop) */
+  .circuit-band { background:#EDE8DF; padding:34px 6vw 40px; scroll-margin-top:70px; border-top:1px solid rgba(0,0,0,.08); border-bottom:1px solid rgba(0,0,0,.08); }
+  .circuit-band__title {
+    font-family:var(--mono); font-size:11px; letter-spacing:.24em; text-transform:uppercase;
+    color:rgba(10,10,10,.55); text-align:center; margin-bottom:28px;
+  }
+  .circuit-band__row {
+    list-style:none; margin:0 auto; padding:0; max-width:1100px;
+    display:flex; justify-content:space-between; align-items:center; gap:32px;
+  }
+  .circuit-band__row li { display:flex; align-items:center; }
+  .circuit-band__row a { display:flex; align-items:center; text-decoration:none; opacity:.88; transition:opacity .3s ease, transform .3s ease; }
+  .circuit-band__row a:hover { opacity:1; transform:translateY(-2px); }
+  .fw-logo { display:block; width:auto; filter:brightness(0); }
+  .fw-logo--stack { height:clamp(46px,5.2vw,74px); }
+  .fw-logo--wide  { height:clamp(16px,1.9vw,27px); }
+  .fw-mark {
+    display:block; font-family:'Playfair Display','Cormorant SC',serif; font-weight:700;
+    font-size:clamp(13px,1.5vw,21px); line-height:1.06; letter-spacing:.04em;
+    text-transform:uppercase; color:#0A0A0A;
+  }
+  @media (max-width:700px) {
+    .circuit-band { padding:26px 18px 30px; }
+    .circuit-band__row { gap:12px; }
+    .fw-logo--stack { height:38px; }
+    .fw-logo--wide  { height:13px; }
+    .fw-mark { font-size:11px; }
+  }
 
   /* BOTTOM STRIP */
   .split__strip {
@@ -475,10 +509,12 @@
     .split { grid-template-columns:1fr; grid-template-rows:1fr auto; height:auto; min-height:100vh; }
     .split__left { grid-column:1; grid-row:1; border-right:none; border-bottom:1px solid var(--cream-border); padding:40px 28px; }
     .split__right { grid-column:1; grid-row:2; }
+    .split__feat--circuit { grid-row:1; border-bottom:1px solid rgba(244,241,234,.08); }
     .split__feat-img-wrap { flex:0 0 auto; aspect-ratio:3/4; width:calc(100% - 56px); margin:0 28px; align-self:unset; }
     .split__feat-meta { padding:24px 28px 10px; }
     .split__feat-info { padding:14px 28px 24px; }
     .split__strip { grid-column:1; grid-row:3; grid-template-columns:repeat(2,1fr); }
+    .split { grid-template-rows:auto auto auto; }
     .split__strip-item:nth-child(2) { border-right:none; }
     .split__strip-item:nth-child(3) { border-top:1px solid var(--cream-border); }
     .split__strip-item:nth-child(4) { border-right:none; border-top:1px solid var(--cream-border); }
@@ -643,6 +679,9 @@
   .split__vision-location,
   .split__vision-date { color: rgba(244,241,234,.38) !important; }
 
+  .split__feat-title { color: #f4f1ea !important; }
+  .split__feat-sub { color: rgba(244,241,234,.42) !important; font-size:9px !important; }
+  .split__feat-info { border-top-color: rgba(244,241,234,.08) !important; }
   .split__open-btn {
     color: rgba(244,241,234,.55) !important;
     border-color: rgba(244,241,234,.18) !important;
@@ -742,6 +781,21 @@
   </section>
 
 
+
+  <!-- ═══════════════════════════════
+       SECTION 1.4 · ON THE CIRCUIT — fashion week logos (links to circuit.html)
+       Logos live in assets/logos/. Milan has no logo file yet → text mark; to swap,
+       add assets/logos/milan.svg and use <img class="fw-logo fw-logo--stack" ...>
+  ═══════════════════════════════ -->
+  <section class="circuit-band" aria-labelledby="circuit-band-title">
+    <p class="circuit-band__title" id="circuit-band-title">On the Circuit</p>
+    <ul class="circuit-band__row">
+      <li><a href="circuit.html#munich" title="Munich Fashion Week"><img class="fw-logo fw-logo--stack" src="assets/logos/munich.svg" alt="Munich Fashion Week"></a></li>
+      <li><a href="circuit.html#milan" title="Milan Fashion Week"><span class="fw-mark" role="img" aria-label="Milan Fashion Week">Milan<br>Fashion<br>Week</span></a></li>
+      <li><a href="circuit.html#paris" title="Paris Fashion Week"><img class="fw-logo fw-logo--wide" src="assets/logos/paris.svg" alt="Paris Fashion Week"></a></li>
+      <li><a href="circuit.html#berlin" title="Berlin Fashion Week"><img class="fw-logo fw-logo--stack" src="assets/logos/berlin.svg" alt="Berlin Fashion Week"></a></li>
+    </ul>
+  </section>
 
   <!-- ═══════════════════════════════
        SECTION 1.5 · SCATTER
@@ -944,36 +998,22 @@
 
     <!-- MASTHEAD — magazine header bar spanning both columns -->
 
-    <!-- LEFT: VRASA identity -->
-    <div class="split__left">
-      <p class="split__meta">Issue 07 &thinsp;/&thinsp; Est. 2019</p>
-
-      <div class="split__logo-wrap">
-        <svg class="vrasa-mark" viewBox="0 0 520 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="VRASA — by Sri Vrushank">
-          <text x="260" y="88" text-anchor="middle" font-family="'Playfair Display','Cormorant SC',serif" font-weight="900" font-size="92" letter-spacing="10" fill="currentColor">VRASA</text>
-          <g transform="translate(260,108)" stroke-linecap="round" fill="none" stroke="currentColor" stroke-width="1.1">
-            <line x1="-108" y1="0" x2="-22" y2="0"/>
-            <line x1="22" y1="0" x2="108" y2="0"/>
-            <path d="M -22 0 C -16 -5,-8 -5,-4 -2.5"/>
-            <path d="M 22 0 C 16 -5,8 -5,4 -2.5"/>
-          </g>
-          <circle cx="260" cy="108" r="2.5" fill="currentColor"/>
-          <text x="260" y="148" text-anchor="middle" font-family="'Cormorant Garamond','Cormorant',serif" font-weight="400" font-style="italic" font-size="26" letter-spacing="1" fill="currentColor" opacity="0.82">by Sri Vrashank</text>
-        </svg>
+    <!-- LEFT: Featured project — The Circuit (fashion weeks) -->
+    <div class="split__right split__feat--circuit">
+      <div class="split__feat-meta">
+        <span>Featured</span>
+        <span>The Circuit</span>
+        <span>280 Frames</span>
       </div>
-
-      <!-- Category tagline (updates when bottom strip is clicked) -->
-      <div class="split__cat-tagline" id="split-cat-tagline">
-        <p class="split__cat-label" id="split-cat-label">Fashion</p>
-        <p class="split__cat-quote" id="split-cat-quote">I make photographs that hold a look.</p>
-      </div>
-
-      <div class="split__vision" id="split-vision">
-        <p class="split__vision-headline" id="split-vision-headline">I make photographs that hold a look — stories filed across a year of assignments.</p>
-        <div class="split__vision-meta">
-          <span class="split__vision-location" id="split-vision-location">Munich · India · Worldwide</span>
-          <span class="split__vision-date" id="split-vision-date">SS · 26</span>
+      <a class="split__feat-img-wrap" href="circuit.html" aria-label="Open The Circuit">
+        <img class="split__feat-img" src="shoots/circuit/paris/rick-owens/19.jpg" alt="Paris Fashion Week, Rick Owens" style="object-position:50% 30%;">
+      </a>
+      <div class="split__feat-info">
+        <div>
+          <h2 class="split__feat-title">The Circuit.</h2>
+          <p class="split__feat-sub">Munich · Milan · Paris · Berlin · 2026</p>
         </div>
+        <a class="split__open-btn" href="circuit.html">Open The Circuit →</a>
       </div>
     </div>
 
@@ -1293,8 +1333,8 @@
       featSub.textContent   = proj.sub;
 
       // Fade-swap left column category tagline
-      catTaglineWrap.classList.add('fading');
-      setTimeout(() => {
+      if (catTaglineWrap) catTaglineWrap.classList.add('fading');
+      if (catTaglineWrap) setTimeout(() => {
         catLabelEl.textContent = cat.label;
         catQuoteEl.textContent = cat.tagline;
         catTaglineWrap.classList.remove('fading');
